@@ -1,8 +1,5 @@
 package com.example.darth.search_recyclerview.activities;
 
-
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,16 +52,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     public void setmRecyclerViewLayoutManager(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        Log.i("Banana", "o mers");
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-//        mRecyclerView.addItemDecoration(new SpacesItemDecoration(1));
         mAdapter = new ListPostsAdapter(getApplicationContext(), postList);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        int scrollPosition = 0;
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
+        mRecyclerView.scrollToPosition(0);
     }
 
     @Override
@@ -103,5 +96,5 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         return filteredModelList;
     }
-
 }
+
