@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">search-recyclerview</string>
     <string name="action_search">Search</string>
+    <string name="email">email</string>
+    <string name="password_et">password</string>
+    <string name="login">Login</string>
 </resources>
