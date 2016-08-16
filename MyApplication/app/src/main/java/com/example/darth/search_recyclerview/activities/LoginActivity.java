@@ -1,7 +1,9 @@
 package com.example.darth.search_recyclerview.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String BASE_URL = "http://192.168.3.191:8080/cvsi-server/";
     private UserController userController;
     private Button button;
-    private Button token_button;
     private EditText emailET;
     private EditText passwordET;
 
@@ -32,33 +33,26 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        emailET = (EditText) findViewById(R.id.email_et);
-        emailET.setText("cvsiserver@gmail.com");
-        passwordET = (EditText) findViewById(R.id.password_et);
-        passwordET.setText("cvsiserverr");
-        button = (Button) findViewById(R.id.log_in_button);
+        sessionManager = new SessionManager(getApplicationContext());
+        initViews();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onLoginButtonClick();
+
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                runner.execute("1");
+
             }
         });
-        token_button = (Button) findViewById(R.id.show_token_button);
-        token_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                sessionManager = new SessionManager(getApplicationContext());
-                //        sessionManager.checkLogin(getApplicationContext());
-//                Log.i(preferences.contains(sessionManager.getToken()).)
-                Log.i("TAG", sessionManager.getToken());
-                if (preferences.contains(sessionManager.getToken())) {
-                    onListItemsButtonClick();
-                }
-            }
-        });
+    }
 
-
+    public void initViews() {
+        emailET = (EditText) findViewById(R.id.email_et);
+        emailET.setText("cvsiserver@gmail.com");
+        passwordET = (EditText) findViewById(R.id.password_et);
+        passwordET.setText("cvsiserver");
+        button = (Button) findViewById(R.id.log_in_button);
     }
 
     public void onLoginButtonClick() {
@@ -69,10 +63,57 @@ public class LoginActivity extends AppCompatActivity {
         userController.login(userModel, this.getApplicationContext());
     }
 
-    public void onListItemsButtonClick() {
+    public void getMainActivity() {
         Intent getListItemsIntent = new Intent(this, MainActivity.class);
         final int result = 1;
         getListItemsIntent.putExtra("callingActivity", "LoginActivity");
         startActivityForResult(getListItemsIntent, result);
+    }
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+        private String resp;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Sleeping..."); // Calls onProgressUpdate()
+            try {
+                int time = Integer.parseInt(params[0]) * 1000;
+
+                Thread.sleep(time);
+                resp = "Slept for " + params[0] + " seconds";
+                if (sessionManager.getToken() != null) {
+                    getMainActivity();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                resp = e.getMessage();
+            } catch (Exception e) {
+                e.printStackTrace();
+                resp = e.getMessage();
+            }
+            Log.w("RESP", resp);
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressDialog.dismiss();
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(LoginActivity.this,
+                    "ProgressDialog",
+                    "Loading...");
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+        }
     }
 }
