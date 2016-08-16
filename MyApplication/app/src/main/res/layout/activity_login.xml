@@ -10,13 +10,13 @@
     tools:context="com.example.darth.search_recyclerview.activities.LoginActivity">
 
     <EditText
-        android:id="@+id/username_et"
+        android:id="@+id/email_et"
         android:hint="@string/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_below="@+id/username_et"
+        android:layout_below="@+id/email_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/password_et"
@@ -26,6 +26,13 @@
         android:id="@+id/log_in_button"
         android:layout_below="@id/password_et"
         android:text="@string/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="Token"
+        android:layout_below="@+id/log_in_button"
+        android:id="@+id/show_token_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </RelativeLayout>

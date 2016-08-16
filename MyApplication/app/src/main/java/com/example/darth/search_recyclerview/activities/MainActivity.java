@@ -1,12 +1,15 @@
 package com.example.darth.search_recyclerview.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 import com.example.darth.search_recyclerview.R;
 import com.example.darth.search_recyclerview.adapters.ListPostsAdapter;
 import com.example.darth.search_recyclerview.controllers.PostsController;
+import com.example.darth.search_recyclerview.controllers.SessionManager;
 import com.example.darth.search_recyclerview.model.Post;
 
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected StaggeredGridLayoutManager mLayoutManager;
     private List<Post> postList;
     private ListPostsAdapter mAdapter;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         postsController = new PostsController();
         EventBus.getDefault().register(this);
         postsController.getPosts();
+
+
+
     }
 
     @Subscribe

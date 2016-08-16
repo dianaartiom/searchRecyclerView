@@ -1,6 +1,7 @@
 package com.example.darth.search_recyclerview.interfaces;
 
-import com.example.darth.search_recyclerview.model.User;
+import com.example.darth.search_recyclerview.model.LoginUserModel;
+import com.example.darth.search_recyclerview.model.ResponseUser;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,5 +13,5 @@ import retrofit2.http.POST;
 public interface IUser {
 
     @POST("login")
-    Call<User> log(@Body User user);
+    Call<ResponseUser> log(@Body LoginUserModel user);
 }
